@@ -48,7 +48,6 @@ function log(log, verbosity) {
 // PERMISSION LOGIC
 const DEFAULT_PERMS = {
     isAdmin: false,
-    manageServer: false, // NOT IMPLEMENTED
     manageRoles: false, // NOT IMPLEMENTED
     manageChannels: false, // NOT IMPLEMENTED
     manageMessages: false, // NOT IMPLEMENTED
