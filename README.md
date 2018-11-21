@@ -82,6 +82,7 @@ LICENSE | MIT
     - ☐ Change own channel nickname
     - ☐ Change others' channel nickname
   - ☐ Encryption layer to database
+  - ☐ Configurable HTTPS layer
 
 ---
 
