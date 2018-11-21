@@ -39,7 +39,13 @@ LICENSE | MIT
     - ☐ Message query (size, offset, search terms)
   - ☐ User query
     - ☐ Global
+      - ☐ Nick
+      - ☐ Status
+      - ☐ Note
     - ☐ Per-Channel
+      - ☐ Channel nick
+      - ☐ Roles
+      - ☐ Is owner
   - ☐ Channel query
   - ☐ Channel management
     - ☐ Managing roles
@@ -48,18 +54,33 @@ LICENSE | MIT
       - ☐ Editing role permissions
     - ☐ Channel properties
       - ☐ Save messages
-  - ☐ Nicknames
-    - ☐ Change own global nickname
-    - ☐ Change own channel nickname
-    - ☐ Change others' channel nickname
   - ☐ Fully implement permissions
     - ☐ Management permissions
     - ☐ Administrative permissions
     - ☐ Usage permissions
+  - ☐ User configuration
+  - ☐ Channel properties
+    - ☐ Topic
+    - ☐ Pinned messages
+
+- Later Features
+  - ☐ Easily-themeable
+    - ☐ Easy configuration .ini's
+    - ☐ Advanced CSS files
+  - ☐ Images embeddable anywhere in messages
+  - ☐ Profile
+    - ☐ Picture
+    - ☐ Implement personal note
+  - ☐ Friends system
+  - ☐ Direct messaging other users
   - ☐ Roles
     - ☐ Prefix/suffix
     - ☐ Color
-  - ☐ User configuration
+  - ☐ Email confirmation and reset password
+  - ☐ Nicknames
+    - ☐ Change own global nickname
+    - ☐ Change own channel nickname
+    - ☐ Change others' channel nickname
 
 ---
 
