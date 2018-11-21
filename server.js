@@ -1,6 +1,7 @@
 // INITIALIZING CONFIG
 const config = {};
 config['system'] = {
+    version: 'pre-alpha-9ri51',
     databaseVersion: '1.0',
     isProxied: true
 }
@@ -435,7 +436,7 @@ app.post('/api/register', function register (req, res) {
 });
 
 // BEGIN LISTENING
-log('BEGINNING SERVER', 0);
+log(`BEGINNING SERVER (${config['system'].version})`, 0);
 server.listen(6719);
 
 // CHANNEL MANAGEMENT
@@ -534,7 +535,7 @@ DATABASE STRUCTURE:
             - nick ( string ) [ can be empty ]
             - roles ( [ role.id ] )
         }] ),
-        saveMessage ( bool )
+        saveMessages ( bool )
 
 MESSAGE STRUCTURE:
     - from ( int ) [ id ]
