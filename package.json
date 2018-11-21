@@ -1,6 +1,6 @@
 {
   "name": "d-mail",
-  "version": "alpha-9ri51",
+  "version": "1.0",
   "description": "alternative, decentralized messaging application",
   "scripts": {
     "build": "webpack"
