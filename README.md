@@ -65,3 +65,5 @@ LICENSE | MIT
 
 ## Documentation
 Limited documentation is currently available in the repo within `/docs/`. This will be further updated once the project is at a stable state.
+- [Technician Management Console (/docs/tmc.md)](https://github.com/lanpai/d-mail/blob/master/docs/tmc.md)
+- [Error Codes (/docs/errorcodes.md)](https://github.com/lanpai/d-mail/blob/master/docs/errorcodes.md)
