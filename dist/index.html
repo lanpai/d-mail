@@ -1,0 +1,34 @@
+<head>
+    <script src="main.js"></script>
+</head>
+
+<body>
+    <input class="email-register" type="text" placeholder="Email"><br />
+    <input class="nick-register" type="text" placeholder="Nick"><br />
+    <input class="password-register" type="password" placeholder="Password"><br />
+    <button onclick="register()">Register</button>
+    <br />
+    <hr />
+    <input class="email-generate" type="text" placeholder="Email"><br />
+    <input class="password-generate" type="password" placeholder="Password"><br />
+    <button onclick="generate()">Generate Auth Token</button>
+    <br />
+    <hr />
+    <input class="authToken-login" type="text" placeholder="Auth Token"><br />
+    <button onclick="login()">Login</button><br />
+    <button onclick="logout()">Logout</button><br />
+    <button onclick="reconnect()">Reconnect</button>
+    <br />
+    <hr />
+    <input class="to-message" type="text" placeholder="To"><br />
+    <input class="headers-message" type="text" placeholder="Headers"><br />
+    <input class="body-message" type="text" placeholder="Body"><br />
+    <button onclick="message()">Send</button>
+    <br />
+    <hr />
+    <input class="id-join" type="text" placeholder="Channel ID"><br />
+    <button onclick="join()">Join</button>
+    <br />
+    <hr />
+    <div class="channels-div"></div>
+</body>

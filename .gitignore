@@ -59,3 +59,12 @@ typings/
 
 # next.js build output
 .next
+
+# Output of webpack
+dist/main.js
+
+# package-lock.json
+package-lock.json
+
+# lowdb Database
+db.json
