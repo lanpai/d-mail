@@ -81,6 +81,7 @@ LICENSE | MIT
     - ☐ Change own global nickname
     - ☐ Change own channel nickname
     - ☐ Change others' channel nickname
+  - ☐ Encryption layer to database
 
 ---
 
