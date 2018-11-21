@@ -5,6 +5,7 @@
 ### Table of Contents
 - [createchannel (name) (id) (owner)](#createchannel-id-owner)
 - [permcheck (user id) (channel id) (permission id)](#permcheck-user-id-channel-id-permission-id)
+- [querychannel (id)](#querychannel-id)
 
 ---
 
