@@ -1,8 +1,8 @@
-# ERROR CODES
+## ERROR CODES
 
 ---
 
-## Table of Contents
+### Table of Contents
 - [Socket Codes](#socket-codes)
     - [socket -> login](#socket---login)
     - [socket -> join](#socket---join)
@@ -14,15 +14,15 @@
 
 ---
 
-## Socket Codes
+### Socket Codes
 
-### socket -> login
+#### socket -> login
 - `1` : `INVALID AUTH TOKEN`
 
-### socket -> join
+#### socket -> join
 - `1` : `MISSING PARAMETERS`
 
-### socket -> message
+#### socket -> message
 - `1` : `MISSING PARAMETERS`
 - `2` : `CHANNEL DOES NOT EXIST`
 - `3` : `INVALID MESSAGE TYPE`
@@ -30,15 +30,15 @@
 
 ---
 
-## API Codes
+### API Codes
 
-### /api/*
+#### /api/*
 - `-1` : `Too many requests!`
 
-### /api/genAuthToken
+#### /api/genAuthToken
 - `1` : `Email or password is incorrect!`
 
-### /api/register
+#### /api/register
 - `1` : `Email is already in use!`
 - `2` : `Nickname must be at least 3 characters long!`
 - `3` : `Password strength is insufficient!`
