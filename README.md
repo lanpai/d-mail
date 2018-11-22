@@ -33,7 +33,7 @@ LICENSE | MIT
 
 ---
 
-## 🛣️ Roadmap
+## 🚧 Roadmap
 - v. **alpha-9ri51**
   - 🗹 API
     - 🗹 Message query
