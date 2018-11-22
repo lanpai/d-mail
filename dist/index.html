@@ -14,7 +14,7 @@
     <button onclick="generate()">Generate Auth Token</button>
     <br />
     <hr />
-    <input class="authToken-login" type="text" placeholder="Auth Token"><br />
+    <input class="token-login" type="text" placeholder="Auth Token"><br />
     <button onclick="login()">Login</button><br />
     <button onclick="logout()">Logout</button><br />
     <button onclick="reconnect()">Reconnect</button>
@@ -31,4 +31,16 @@
     <br />
     <hr />
     <div class="channels-div"></div>
+    <br />
+    <hr />
+    <input class="id-queryChannel" placeholder="Channel ID" type="text"><br />
+    <button onclick="queryChannel()">Query Channel</button>
+    <br />
+    <hr />
+    <input class="token-queryMessages" type="text" placeholder="Auth Token"><br />
+    <input class="id-queryMessages" type="text" placeholder="Channel ID"><br />
+    <input class="size-queryMessages" type="text" placeholder="Query Size"><br />
+    <input class="offset-queryMessages" type="text" placeholder="Query Offset"><br />
+    <input class="search-queryMessages" type="text" placeholder="Search"><br />
+    <button onclick="queryMessages()">Query Messages</button>
 </body>

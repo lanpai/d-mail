@@ -12,35 +12,6 @@ const db = low(adapter);
 
 db.defaults({ channels: [] }).write();
 
-window.register = function () {
-    var email = document.getElementsByClassName('email-register')[0].value;
-    var nick = document.getElementsByClassName('nick-register')[0].value;
-    var password = document.getElementsByClassName('password-register')[0].value;
-
-    var xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "/api/register", false);
-    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send(`email=${email}&nick=${nick}&password=${password}`);
-    var response = JSON.parse(xhttp.response);
-    console.log(response);
-}
-
-window.generate = function () {
-    var email = document.getElementsByClassName('email-generate')[0].value;
-    var password = document.getElementsByClassName('password-generate')[0].value;
-
-    var xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "/api/genAuthToken", false);
-    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send(`email=${email}&password=${password}`);
-    var response = JSON.parse(xhttp.response);
-    console.log(response);
-    if (response.code == 0)
-        document.getElementsByClassName('authToken-login')[0].value = `${email}///${response.token}`;
-        window.localStorage.setItem('authToken', response.token);
-        window.localStorage.setItem('email', email);
-}
-
 import io from 'socket.io-client';
 
 var socket = io('/');
@@ -54,21 +25,59 @@ socket.on('message', function (data) {
 socket.on('disconnect', function () {
     console.log('DISCONNECTED');
 });
+
+window.register = function () {
+    var email = document.getElementsByClassName('email-register')[0].value;
+    var nick = document.getElementsByClassName('nick-register')[0].value;
+    var password = document.getElementsByClassName('password-register')[0].value;
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("POST", "/api/register", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(`email=${email}&nick=${nick}&password=${password}`);
+    xhttp.onload = function (e) {
+        var response = JSON.parse(xhttp.response);
+        console.log(response);
+    }
+}
+
+window.generate = function () {
+    var email = document.getElementsByClassName('email-generate')[0].value;
+    var password = document.getElementsByClassName('password-generate')[0].value;
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("POST", "/api/genAuthToken", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(`email=${email}&password=${password}`);
+    xhttp.onload = function (e) {
+        var response = JSON.parse(xhttp.response);
+        console.log(response);
+        if (response.code == 0)
+            document.getElementsByClassName('token-login')[0].value = `${email}///${response.token}`;
+            document.getElementsByClassName('token-queryMessages')[0].value = `${email}///${response.token}`;
+            window.localStorage.setItem('authToken', response.token);
+            window.localStorage.setItem('email', email);
+    }
+}
+
 window.login = function () {
     socket.emit('login', {
-        token: document.getElementsByClassName('authToken-login')[0].value
+        token: document.getElementsByClassName('token-login')[0].value
     }, function (data) {
         console.log(data);
     });
 }
+
 window.logout = function () {
     socket.emit('logout', function (data) {
         console.log(data);
     });
 }
+
 window.reconnect = function () {
     socket.connect();
 }
+
 window.message = function () {
     socket.emit('message', {
         to: document.getElementsByClassName('to-message')[0].value,
@@ -78,6 +87,7 @@ window.message = function () {
         console.log(data);
     });
 }
+
 window.join = function () {
     var channelId = document.getElementsByClassName('id-join')[0].value;
     socket.emit('join', {
@@ -96,4 +106,32 @@ window.join = function () {
             }
         }
     });
+}
+
+window.queryChannel = function () {
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("POST", "/api/query/channel", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(`id=${document.getElementsByClassName('id-queryChannel')[0].value}`);
+    xhttp.onload = function (e) {
+        var response = JSON.parse(xhttp.response);
+        console.log(response);
+    }
+}
+
+window.queryMessages = function () {
+    var token = document.getElementsByClassName('token-queryMessages')[0].value;
+    var id = document.getElementsByClassName('id-queryMessages')[0].value;
+    var size = document.getElementsByClassName('size-queryMessages')[0].value;
+    var offset = document.getElementsByClassName('offset-queryMessages')[0].value;
+    var search = document.getElementsByClassName('search-queryMessages')[0].value;
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("POST", "/api/query/messages", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(`token=${token}&id=${id}&size=${size}&offset=${offset}&search=${search}`);
+    xhttp.onload = function (e) {
+        var response = JSON.parse(xhttp.response);
+        console.log(response);
+    }
 }

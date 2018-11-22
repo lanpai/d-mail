@@ -10,6 +10,9 @@ config['logs'] = {
     logToFile: ''
 }
 
+// ADDING LODASH
+var _ = require('lodash');
+
 // ADDING EXPRESS AND HTTP AND INITIALIZING
 const express = require('express');
 const app = express();
@@ -156,29 +159,38 @@ io.sockets.on('connection', function onConnection (socket) {
                     DATA:
                         - id ( int ) [ id of channel ]
                     */
-                   data.id = String(data.id);
+                    data.id = String(data.id);
 
                     if (data.id) {
-                        var channel = db.get('channels').find({ id: data.id });
-                        if (channel.value()) {
-                            socket.join(`#${data.id}`);
-                            callback({
-                                code: 0,
-                                new: false,
-                                body: 'SUCCESSFULLY JOINED CHANNEL'
-                            });
-                            log(`JOINED CHANNEL : ${user.value().id} -> #${data.id}`, 3);
+                        if (/^[a-z\-]+$/i.test(data.id)) {
+                            var channel = db.get('channels').find({ id: data.id });
+                            if (channel.value()) {
+                                socket.join(`#${data.id}`);
+                                callback({
+                                    code: 0,
+                                    new: false,
+                                    body: 'SUCCESSFULLY JOINED CHANNEL'
+                                });
+                                log(`JOINED CHANNEL : ${user.value().id} -> #${data.id}`, 3);
+                            }
+                            else {
+                                createChannel(data.id, user.value().id);
+                                socket.join(`#${data.id}`);
+
+                                callback({
+                                    code: 0,
+                                    new: true,
+                                    body: 'CHANNEL DID NOT EXIST - CREATED CHANNEL'
+                                });
+                                log(`ATTEMPTED ACCESSING NON-EXISTANT CHANNEL - CREATED CHANNEL : ${user.value().id} -> #${data.id}`, 2);
+                            }
                         }
                         else {
-                            createChannel(data.id, user.value().id);
-                            socket.join(`#${data.id}`);
-
                             callback({
-                                code: 0,
-                                new: true,
-                                body: 'CHANNEL DID NOT EXIST - CREATED CHANNEL'
+                                code: 2,
+                                body: 'INVALID ID'
                             });
-                            log(`ATTEMPTED ACCESSING NON-EXISTANT CHANNEL - CREATED CHANNEL : ${user.value().id} -> #${data.id}`, 2);
+                            log(`socket -> join INVALID ID : ${user.value().id}`, 2);
                         }
                     }
                     else {
@@ -229,11 +241,12 @@ io.sockets.on('connection', function onConnection (socket) {
                                     if (channel.value().saveMessages)
                                         channel.get('messages').push(messageData).write();
 
+                                    io.to(data.to).emit('message', messageData);
+
                                     callback({
                                         code: 0,
                                         body: 'MESSAGE SUCCESSFULLY SENT'
                                     });
-                                    io.to(data.to).emit('message', messageData);
                                     log(`MESSAGE SENT : ${data.headers} - ${data.body} : ${user.value().id} -> ${data.to}`, 3);
                                 }
                                 else {
@@ -323,13 +336,98 @@ const apiLimiter = rateLimit({
 });
 app.use("/api/", apiLimiter); // LIMIT API USAGE
 
+// MESSAGE QUERY
+app.post('/api/query/messages', function onQueryMessages (req, res) {
+    /*
+    BODY:
+        - token ( string )
+        - id ( int )
+        - size ( int )
+        - offset ( int )
+        - search ( string )
+    */
+
+    if (req.bodyString('token') && req.bodyString('id') && req.bodyInt('size') !== undefined && req.bodyInt('offset') !== undefined) {
+        if (AUTH_TOKENS[req.connection.remoteAddress].token == req.bodyString('token')) {
+            var channel = db.get('channels').find({ id: req.bodyString('id') }).cloneDeep();
+            if (channel.value()) {
+                if (permCheck(AUTH_TOKENS[req.connection.remoteAddress].id, req.bodyString('id'), 'readMessages')) {
+                    var query = channel.get('messages').reverse()
+                        .filter(function channelQueryFilter (o) {
+                            return o.body.indexOf(req.bodyString('search')) != -1 || !req.bodyString('search');
+                        })
+                        .slice(req.bodyInt('offset'), req.bodyInt('offset') + req.bodyInt('size')).reverse().value();
+                    res.json({
+                        code: 0,
+                        body: 'Retrieved message query.',
+                        query: query
+                    });
+                    log(`QUERIED MESSAGE : #${req.bodyString('id')} : size: ${req.bodyInt('size')}, offset: ${req.bodyInt('offset')}, search: ${req.bodyString('search')}`);
+                }
+                else {
+                    res.json({
+                        code: 3,
+                        body: 'Permission denied!'
+                    });
+                }
+            }
+            else {
+                res.json({
+                    code: 2,
+                    body: 'Channel does not exist!'
+                });
+            }
+        }
+        else {
+            res.json({
+                code: 1,
+                body: 'Invalid auth token!'
+            });
+        }
+    }
+    else {
+        res.end();
+    }
+});
+
+// CHANNEL QUERY
+app.post('/api/query/channel', function onQueryChannel (req, res) {
+    /*
+    BODY:
+        - id ( int )
+    */
+
+    if (req.bodyString('id')) {
+        var query = queryChannel(req.bodyString('id'));
+        if (query) {
+            res.json({
+                code: 0,
+                body: 'Retrieved channel query.',
+                query: query
+            });
+            log(`QUERIED CHANNEL : #${req.bodyString('id')}`, 3);
+            log(query, 3);
+        }
+        else {
+            res.json({
+                code: 1,
+                body: 'Channel does not exist!'
+            });
+        }
+    }
+    else {
+        res.end();
+    }
+});
+
 // GENERATING AN AUTH TOKEN
-app.post('/api/genAuthToken', function genAuthToken (req, res) {
+app.post('/api/genAuthToken', function onGenAuthToken (req, res) {
     /*
     BODY:
         - email ( string )
         - password ( password )
     */
+
     if (req.bodyEmail('email') && req.bodyString('password')) {
         var user = db.get('users').find({ email: req.bodyEmail('email') }).value();
         if (user) {
@@ -337,7 +435,8 @@ app.post('/api/genAuthToken', function genAuthToken (req, res) {
                 if (success) {
                     var authToken = uuidv4();
                     AUTH_TOKENS[req.connection.remoteAddress] = {
-                        token: `${user.email}///${authToken}`
+                        token: `${user.email}///${authToken}`,
+                        id: user.id
                     };
 
                     res.json({
@@ -375,13 +474,14 @@ function pswdTest(password) {
         return true;
     return false;
 }
-app.post('/api/register', function register (req, res) {
+app.post('/api/register', function onRegister (req, res) {
     /*
     BODY:
         - email ( string )
         - nick ( string )
         - password ( string )
     */
+
 	if (req.bodyEmail('email') && req.bodyString('nick') && req.bodyString('password')) {
         if (!db.get('users').filter({ email: req.bodyEmail('email') }).size().value()) {
             if (req.bodyString('nick').length >= 3) {
@@ -459,7 +559,7 @@ function createChannel(id, owner/*, parentServer*/) {
     log (`CHANNEL CREATED : #${id}`, 3);
 }
 function queryChannel(id) {
-    var channel = db.get('channels').find({ id: id }).value();
+    var channel = db.get('channels').find({ id: id }).cloneDeep().value();
     if (channel) {
         delete channel.messages;
         log(`QUERIED CHANNEL : #${id}`, 3);
