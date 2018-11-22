@@ -35,9 +35,9 @@ LICENSE | MIT
 
 ## Roadmap
 - v. **alpha-9ri51**
-  - ☑ API
-    - ☑ Message query
-    - ☑ Channel query
+  - 🗹 API
+    - 🗹 Message query
+    - 🗹 Channel query
   - ☐ User query
     - ☐ Global
       - ☐ Nick
@@ -64,7 +64,7 @@ LICENSE | MIT
     - ☐ Topic
     - ☐ Pinned messages
   - ☐ Accept X-Forwarded-To to allow reverse proxies
-  - ☑ Sanitize channel id's
+  - 🗹 Sanitize channel id's
 
 - Later Features
   - ☐ Easily-themeable
