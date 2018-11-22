@@ -21,6 +21,7 @@
 
 #### socket -> join
 - `1` : `MISSING PARAMETERS`
+- `2` : `INVALID ID`
 
 #### socket -> message
 - `1` : `MISSING PARAMETERS`
@@ -34,6 +35,14 @@
 
 #### /api/*
 - `-1` : `Too many requests!`
+
+#### /api/query/messages
+- `1` : `Invalid auth token!`
+- `2` : `Channel does not exist!`
+- `3` : `Permission denied!`
+
+#### /api/query/channel
+- `1` : `Channel does not exist!`
 
 #### /api/genAuthToken
 - `1` : `Email or password is incorrect!`
