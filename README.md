@@ -1,4 +1,4 @@
-# d-mail
+# d-mail 📮 *💌☴*
 alternative, decentralized messaging application developed within Node.js powered by popular packages:
 - express
 - socket&#8203;.io
@@ -17,14 +17,14 @@ LICENSE | MIT
 
 ---
 
-## Table of Contents
-- [Installation](#installation)
-- [Roadmap](#roadmap)
-- [Documentation](#documentation)
+## 📚 Table of Contents
+- [Installation](#💽-installation)
+- [Roadmap](#🛣️-roadmap)
+- [Documentation](#📄-documentation)
 
 ---
 
-## Installation
+## 💽 Installation
 - Confirm that both Node.js and NPM are installed unto the system beforehand.
 - Clone this repository using `git clone https://github.com/lanpai/d-mail.git`.
 - Install the NPM packages using `npm install`.
@@ -33,7 +33,7 @@ LICENSE | MIT
 
 ---
 
-## Roadmap
+## 🛣️ Roadmap
 - v. **alpha-9ri51**
   - 🗹 API
     - 🗹 Message query
@@ -89,7 +89,11 @@ LICENSE | MIT
 
 ---
 
-## Documentation
+## 📄 Documentation
 Limited documentation is currently available in the repo within `/docs/`. This will be further updated once the project is at a stable state.
 - [Technician Management Console (/docs/tmc.md)](https://github.com/lanpai/d-mail/blob/master/docs/tmc.md)
 - [Error Codes (/docs/errorcodes.md)](https://github.com/lanpai/d-mail/blob/master/docs/errorcodes.md)
+
+---
+
+*Made with 💖 by lanpai*
