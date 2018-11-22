@@ -62,6 +62,7 @@ LICENSE | MIT
   - ☐ Channel properties
     - ☐ Topic
     - ☐ Pinned messages
+  - ☐ Accept X-Forwarded-To to allow reverse proxies
 
 - Later Features
   - ☐ Easily-themeable
