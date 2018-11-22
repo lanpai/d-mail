@@ -1,4 +1,4 @@
-# d-mail 📮 *💌☴*
+# d-mail 📮 *✉️☴*
 alternative, decentralized messaging application developed within Node.js powered by popular packages:
 - express
 - socket&#8203;.io
