@@ -38,15 +38,14 @@ LICENSE | MIT
   - 🗹 API
     - 🗹 Message query
     - 🗹 Channel query
-  - ☐ User query
-    - ☐ Global
-      - ☐ Nick
-      - ☐ Status
-      - ☐ Note
-    - ☐ Per-Channel
-      - ☐ Channel nick
-      - ☐ Roles
-  - ☐ Channel query
+  - 🗹 User query
+    - 🗹 Global
+      - 🗹 Nick
+      - 🗹 Status
+      - 🗹 Note
+    - 🗹 Per-Channel
+      - 🗹 Channel nick
+      - 🗹 Roles
   - ☐ Channel management
     - ☐ Managing roles
       - ☐ Creating/deleting roles

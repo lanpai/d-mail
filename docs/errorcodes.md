@@ -44,6 +44,12 @@
 #### /api/query/channel
 - `1` : `Channel does not exist!`
 
+#### /api/query/user
+- `1` : `User does not exist!`
+- `2` : `Channel does not exist!`
+- `3` : `Invalid auth token!`
+- `4` : `Permission denied!`
+
 #### /api/genAuthToken
 - `1` : `Email or password is incorrect!`
 

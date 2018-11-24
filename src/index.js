@@ -135,3 +135,18 @@ window.queryMessages = function () {
         console.log(response);
     }
 }
+
+window.queryUser = function () {
+    var token = document.getElementsByClassName('token-queryUser')[0].value;
+    var userId = document.getElementsByClassName('userId-queryUser')[0].value;
+    var channelId = document.getElementsByClassName('channelId-queryUser')[0].value;
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("POST", "/api/query/user", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(`token=${token}&userId=${userId}&channelId=${channelId}`);
+    xhttp.onload = function (e) {
+        var response = JSON.parse(xhttp.response);
+        console.log(response);
+    }
+}

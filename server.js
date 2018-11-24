@@ -136,8 +136,7 @@ io.sockets.on('connection', function onConnection (socket) {
         data.token = String(data.token);
 
         var user = db.get('users').find({ email: data.token.substring(0, data.token.lastIndexOf('///')) });
-        if (AUTH_TOKENS[socket.handshake.address] &&
-            AUTH_TOKENS[socket.handshake.address].token == data.token) {
+        if (AUTH_TOKENS[socket.handshake.address] && (AUTH_TOKENS[socket.handshake.address].token == data.token)) {
             try {
                 callback({
                     code: 0,
@@ -348,7 +347,7 @@ app.post('/api/query/messages', function onQueryMessages (req, res) {
     */
 
     if (req.bodyString('token') && req.bodyString('id') && req.bodyInt('size') !== undefined && req.bodyInt('offset') !== undefined) {
-        if (AUTH_TOKENS[req.connection.remoteAddress].token == req.bodyString('token')) {
+        if (AUTH_TOKENS[req.connection.remoteAddress] && (AUTH_TOKENS[req.connection.remoteAddress].token == req.bodyString('token'))) {
             var channel = db.get('channels').find({ id: req.bodyString('id') }).cloneDeep();
             if (channel.value()) {
                 if (permCheck(AUTH_TOKENS[req.connection.remoteAddress].id, req.bodyString('id'), 'readMessages')) {
@@ -412,6 +411,82 @@ app.post('/api/query/channel', function onQueryChannel (req, res) {
             res.json({
                 code: 1,
                 body: 'Channel does not exist!'
+            });
+        }
+    }
+    else {
+        res.end();
+    }
+});
+
+// USER QUERY
+app.post('/api/query/user', function onQueryUser (req, res) {
+    /*
+    BODY:
+        - token ( string )
+        - userId ( int )
+        - channelId ( string ) [optional]
+    */
+
+    if (req.bodyString('token') && req.bodyInt('userId') !== undefined) {
+        if (AUTH_TOKENS[req.connection.remoteAddress] && (AUTH_TOKENS[req.connection.remoteAddress].token == req.bodyString('token'))) {
+            if (req.bodyString('channelId')) {
+                var channel = db.get('channels').find({ id: req.bodyString('channelId') });
+                if (channel.value()) {
+                    if (channel.get('users').find({ id: AUTH_TOKENS[req.connection.remoteAddress].id }).value()) {
+                        var user = channel.get('users').find({ id: req.bodyInt('userId') });
+                        if (user.value()) {
+                            res.json({
+                                code: 0,
+                                body: 'Retrieved user query.',
+                                query: user.value()
+                            })
+                        }
+                        else {
+                            res.json({
+                                code: 1,
+                                body: 'User does not exist!'
+                            });
+                        }
+                    }
+                    else {
+                        res.json({
+                            code: 4,
+                            body: 'Permission denied!'
+                        });
+                    }
+                }
+                else {
+                    res.json({
+                        code: 2,
+                        body: 'Channel does not exist!'
+                    });
+                }
+            }
+            else {
+                var user = db.get('users').find({ id: req.bodyInt('userId') });
+                if (user.value()) {
+                    var query = user.cloneDeep().value();
+                    delete query.email;
+                    delete query.password;
+                    res.json({
+                        code: 0,
+                        body: 'Retrieved user query.',
+                        query: query
+                    })
+                }
+                else {
+                    res.json({
+                        code: 1,
+                        body: 'User does not exist!'
+                    });
+                }
+            }
+        }
+        else {
+            res.json({
+                code: 3,
+                body: `Invalid auth token!`
             });
         }
     }
@@ -620,7 +695,6 @@ DATABASE STRUCTURE:
         - password ( string )
         - status ( enum ) [ online, offline, invisible, do not disturb ]
         - note ( string )
-        - perms ( permissions )
     CHANNELS:
         - id ( int )
         - name ( string )
