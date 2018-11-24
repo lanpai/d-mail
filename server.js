@@ -43,6 +43,11 @@ const db = low(adapter);
 db.defaults({ users: [], channels: [], databaseVersion: config['system'].databaseVersion })
     .write();
 
+// CHANGE STATUS OF ONLINE USERS TO OFFLINE
+db.get('users').filter({ status: 0 }).each(function (val) {
+    val.status = 1;
+}).write();
+
 // LOGGING
 function log(log, verbosity) {
     if (config['logs'].verbosity >= verbosity)
@@ -116,10 +121,10 @@ AUTH_TOKENS:
 
 // SOCKET LOGIC
 io.sockets.on('connection', function onConnection (socket) {
-    log(`CONNECTION INITIALIZED : ${socket.handshake.address}`, 3);
+    log(`CONNECTION INITIALIZED : ${socket.request.headers['x-forwarded-for'] || socket.handshake.address}`, 3);
 
     function baseDisconnect(socket) {
-        log(`DISCONNECTED : ${socket.handshake.address}`, 3);
+        log(`DISCONNECTED : ${socket.request.headers['x-forwarded-for'] || socket.handshake.address}`, 3);
         socket.removeAllListeners();
     }
 
@@ -136,7 +141,7 @@ io.sockets.on('connection', function onConnection (socket) {
         data.token = String(data.token);
 
         var user = db.get('users').find({ email: data.token.substring(0, data.token.lastIndexOf('///')) });
-        if (AUTH_TOKENS[socket.handshake.address] && (AUTH_TOKENS[socket.handshake.address].token == data.token)) {
+        if (AUTH_TOKENS[socket.request.headers['x-forwarded-for'] || socket.handshake.address] && (AUTH_TOKENS[socket.request.headers['x-forwarded-for'] || socket.handshake.address].token == data.token)) {
             try {
                 callback({
                     code: 0,
@@ -149,7 +154,7 @@ io.sockets.on('connection', function onConnection (socket) {
                 log(`SUCCESSFULLY LOGGED IN : ${user.value().id}`, 3);
             }
             catch (err) {
-                log(`ERROR AT 'socket -> login' ${socket.handshake.address} : ${err}`, 1);
+                log(`ERROR AT 'socket -> login' ${socket.request.headers['x-forwarded-for'] || socket.handshake.address} : ${err}`, 1);
             }
 
             socket.on('join', function onJoin (data, callback) {
@@ -201,7 +206,7 @@ io.sockets.on('connection', function onConnection (socket) {
                     }
                 }
                 catch (err) {
-                    log(`ERROR AT 'socket -> join' ${socket.handshake.address} : ${err}`, 1);
+                    log(`ERROR AT 'socket -> join' ${socket.request.headers['x-forwarded-for'] || socket.handshake.address} : ${err}`, 1);
                 }
             });
 
@@ -280,7 +285,7 @@ io.sockets.on('connection', function onConnection (socket) {
                     }
                 }
                 catch (err) {
-                    log(`ERROR AT 'socket -> message' ${socket.handshake.address} : ${err}`, 1);
+                    log(`ERROR AT 'socket -> message' ${socket.request.headers['x-forwarded-for'] || socket.handshake.address} : ${err}`, 1);
                 }
             });
 
@@ -291,7 +296,7 @@ io.sockets.on('connection', function onConnection (socket) {
             // MANUALLY LOGGING OUT
             socket.on('logout', function onLogout (callback) {
                 try {
-                    delete AUTH_TOKENS[socket.handshake.address];
+                    delete AUTH_TOKENS[socket.request.headers['x-forwarded-for'] || socket.handshake.address];
                     callback({
                         code: 0,
                         body: 'SUCCESFFULLY LOGGED OUT'
@@ -300,7 +305,7 @@ io.sockets.on('connection', function onConnection (socket) {
                     log(`LOGOUT : ${user.value().id}`, 3);
                 }
                 catch (err) {
-                    log(`ERROR AT 'socket -> logout' ${socket.handshake.address} : ${err}`, 1);
+                    log(`ERROR AT 'socket -> logout' ${socket.request.headers['x-forwarded-for'] || socket.handshake.address} : ${err}`, 1);
                 }
             });
 
@@ -315,7 +320,7 @@ io.sockets.on('connection', function onConnection (socket) {
                 code: 1,
                 body: 'INVALID AUTH TOKEN'
             });
-            log(`INVALID AUTH TOKEN : ${socket.handshake.address} - ${data.token}`, 2);
+            log(`INVALID AUTH TOKEN : ${socket.request.headers['x-forwarded-for'] || socket.handshake.address} - ${data.token}`, 2);
             socket.disconnect(true);
         }
     });
@@ -347,10 +352,10 @@ app.post('/api/query/messages', function onQueryMessages (req, res) {
     */
 
     if (req.bodyString('token') && req.bodyString('id') && req.bodyInt('size') !== undefined && req.bodyInt('offset') !== undefined) {
-        if (AUTH_TOKENS[req.connection.remoteAddress] && (AUTH_TOKENS[req.connection.remoteAddress].token == req.bodyString('token'))) {
+        if (AUTH_TOKENS[req.headers['x-forwarded-for'] || req.connection.remoteAddress] && (AUTH_TOKENS[req.headers['x-forwarded-for'] || req.connection.remoteAddress].token == req.bodyString('token'))) {
             var channel = db.get('channels').find({ id: req.bodyString('id') }).cloneDeep();
             if (channel.value()) {
-                if (permCheck(AUTH_TOKENS[req.connection.remoteAddress].id, req.bodyString('id'), 'readMessages')) {
+                if (permCheck(AUTH_TOKENS[req.headers['x-forwarded-for'] || req.connection.remoteAddress].id, req.bodyString('id'), 'readMessages')) {
                     var query = channel.get('messages').reverse()
                         .filter(function channelQueryFilter (o) {
                             return o.body.indexOf(req.bodyString('search')) != -1 || !req.bodyString('search');
@@ -429,11 +434,11 @@ app.post('/api/query/user', function onQueryUser (req, res) {
     */
 
     if (req.bodyString('token') && req.bodyInt('userId') !== undefined) {
-        if (AUTH_TOKENS[req.connection.remoteAddress] && (AUTH_TOKENS[req.connection.remoteAddress].token == req.bodyString('token'))) {
+        if (AUTH_TOKENS[req.headers['x-forwarded-for'] || req.connection.remoteAddress] && (AUTH_TOKENS[req.headers['x-forwarded-for'] || req.connection.remoteAddress].token == req.bodyString('token'))) {
             if (req.bodyString('channelId')) {
                 var channel = db.get('channels').find({ id: req.bodyString('channelId') });
                 if (channel.value()) {
-                    if (channel.get('users').find({ id: AUTH_TOKENS[req.connection.remoteAddress].id }).value()) {
+                    if (channel.get('users').find({ id: AUTH_TOKENS[req.headers['x-forwarded-for'] || req.connection.remoteAddress].id }).value()) {
                         var user = channel.get('users').find({ id: req.bodyInt('userId') });
                         if (user.value()) {
                             res.json({
@@ -509,7 +514,7 @@ app.post('/api/genAuthToken', function onGenAuthToken (req, res) {
             bcrypt.compare(req.bodyString('password'), user.password, function pswdCompare (err, success) {
                 if (success) {
                     var authToken = uuidv4();
-                    AUTH_TOKENS[req.connection.remoteAddress] = {
+                    AUTH_TOKENS[req.headers['x-forwarded-for'] || req.connection.remoteAddress] = {
                         token: `${user.email}///${authToken}`,
                         id: user.id
                     };
