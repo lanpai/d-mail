@@ -55,6 +55,7 @@ window.generate = function () {
         if (response.code == 0)
             document.getElementsByClassName('token-login')[0].value = `${email}///${response.token}`;
             document.getElementsByClassName('token-queryMessages')[0].value = `${email}///${response.token}`;
+            document.getElementsByClassName('token-queryUser')[0].value = `${email}///${response.token}`;
             window.localStorage.setItem('authToken', response.token);
             window.localStorage.setItem('email', email);
     }
