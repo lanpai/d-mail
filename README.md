@@ -19,7 +19,7 @@ LICENSE | MIT
 
 ## 📚 Table of Contents
 - [Installation](#💽-installation)
-- [Roadmap](#🛣️-roadmap)
+- [Roadmap](#🚧-roadmap)
 - [Documentation](#📄-documentation)
 
 ---
@@ -46,7 +46,6 @@ LICENSE | MIT
     - ☐ Per-Channel
       - ☐ Channel nick
       - ☐ Roles
-      - ☐ Is owner
   - ☐ Channel query
   - ☐ Channel management
     - ☐ Managing roles
