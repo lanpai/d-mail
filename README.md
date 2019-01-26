@@ -25,7 +25,7 @@ LICENSE | MIT
 ---
 
 ## 💽 Installation
-- Confirm that both Node.js and NPM are installed unto the system beforehand.
+- Confirm that both Node.js and NPM are installed onto the system beforehand.
 - Clone this repository using `git clone https://github.com/lanpai/d-mail.git`.
 - Install the NPM packages using `npm install`.
 - Use `npm run build` to build distributed scripts through webpack.
