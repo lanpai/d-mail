@@ -51,7 +51,7 @@ db.get('users').filter({ status: 0 }).each(function (val) {
 // LOGGING
 function log(log, verbosity) {
     if (config['logs'].verbosity >= verbosity)
-        console.log(verbosity, log);
+        console.log(`[${verbosity}] ${log}`);
 }
 
 // PERMISSION LOGIC
