@@ -1,0 +1,16 @@
+@import '../variables';
+
+.server-list {
+    height: 100%;
+    flex: 100%;
+    max-width: 50px;
+    float: right;
+
+    background-color: $color-bg-2;
+}
+
+.side-bar>div {
+    padding: 15px 4px;
+
+    flex-direction: column;
+}

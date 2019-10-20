@@ -1,0 +1,16 @@
+@import '../variables';
+
+.side-bar {
+    height: 100%;
+    flex: 30%;
+    max-width: 250px;
+    float: right;
+
+    background-color: $color-bg-1;
+}
+
+.side-bar>div {
+    padding: 15px 8px;
+
+    flex-direction: column;
+}

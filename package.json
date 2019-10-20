@@ -1,0 +1,40 @@
+{
+  "name": "d-mail",
+  "version": "1.0.0",
+  "description": "alternative, decentralized messaging application",
+  "scripts": {
+    "start": "webpack-dev-server --open --mode production",
+    "build": "webpack --mode production"
+  },
+  "main": "d-mail.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lanpai/d-mail.git"
+  },
+  "author": "lanpai",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lanpai/d-mail/issues"
+  },
+  "homepage": "https://github.com/lanpai/d-mail#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "react": "^16.10.2",
+    "react-dom": "^16.10.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.6.4",
+    "@babel/preset-env": "^7.6.3",
+    "@babel/preset-react": "^7.6.3",
+    "babel-loader": "^8.0.6",
+    "css-loader": "^3.2.0",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
+    "node-sass": "^4.12.0",
+    "sass-loader": "^8.0.0",
+    "style-loader": "^1.0.0",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.9",
+    "webpack-dev-server": "^3.8.2"
+  }
+}
