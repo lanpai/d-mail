@@ -1,0 +1,36 @@
+@import '../common';
+
+.chat-container {
+    padding: 0 25px 0 25px;
+
+    flex-direction: column;
+    flex: 100%;
+}
+
+.nick {
+    color: $color-fg;
+}
+
+.textbox {
+    margin: 30px;
+
+    border-radius: 10px;
+    background-color: $color-bg-1;
+}
+
+.textbox>div {
+    margin: 10px;
+}
+
+.textbox>div>textarea {
+    width: 100%;
+    padding: 0;
+
+    border-style: none;
+    background-color: rgba(0, 0, 0, 0);
+    color: $color-fg-1;
+
+    resize: none;
+    font-family: $font;
+    font-size: 16px;
+}

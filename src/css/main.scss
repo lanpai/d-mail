@@ -1,4 +1,4 @@
-@import 'variables';
+@import 'common';
 
 html, body {
     height: 100%;
@@ -12,4 +12,8 @@ body {
     background-color: $color-bg;
 
     font-family: $font;
+}
+
+hr {
+    border-color: $color-2;
 }

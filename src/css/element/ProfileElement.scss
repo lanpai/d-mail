@@ -1,25 +1,32 @@
 @import '../common';
 
-.side-bar-element {
+.profile-element {
     margin: auto;
     margin-bottom: 3px;
 
     width: 100%;
 }
 
-.side-bar-element>div {
+.profile-element>div {
     padding: 10px;
 
     border-radius: 5px;
 
-    font-weight: 500;
     color: $color-fg-1;
-    cursor: pointer;
-
-    @include transition(color 200ms, background-color 200ms);
 }
 
-.side-bar-element>div:hover {
+.profile-menu {
+    float: right;
+}
+
+.profile-menu>svg {
+    margin-left: 4px;
+
+    cursor: pointer;
+
+    @include transition(color 200ms);
+}
+
+.profile-menu>svg:hover {
     color: $color-fg;
-    background-color: $color-bg-2;
 }

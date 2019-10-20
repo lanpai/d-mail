@@ -1,4 +1,4 @@
-@import '../variables';
+@import '../common';
 
 .server-list {
     height: 100%;
@@ -7,9 +7,13 @@
     float: right;
 
     background-color: $color-bg-2;
+
+    border-left-style: solid;
+    border-width: 2px;
+    border-color: $color-2;
 }
 
-.side-bar>div {
+.server-list>div {
     padding: 15px 4px;
 
     flex-direction: column;
