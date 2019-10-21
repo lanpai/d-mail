@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import css from '../../../css/container/ChatContainer.scss';
 
 import Message from '../element/Message.jsx';
+import TextBox from '../element/TextBox.jsx';
 
 class ChatContainer extends Component {
     constructor() {
@@ -24,11 +25,7 @@ class ChatContainer extends Component {
                     <Message nick='KuriGohan'>testing</Message>
                     <Message nick='KuriGohan'>testing 1 2 3</Message>
                 </div>
-                <div className='textbox'>
-                    <div>
-                        <textarea placeholder={ 'Message @' + this.state.recepient } rows={1} />
-                    </div>
-                </div>
+                <TextBox placeholder={ 'Message @' + this.state.recepient } />
             </>
         );
     }

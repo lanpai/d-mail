@@ -17,3 +17,7 @@ body {
 hr {
     border-color: $color-2;
 }
+
+:focus {
+    outline: none;
+}
