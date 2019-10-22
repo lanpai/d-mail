@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import css from '../../../css/container/MainInterface.scss';
 
@@ -6,20 +7,22 @@ import ChatContainer from './ChatContainer.jsx';
 import SideBar from './SideBar.jsx';
 import ServerList from './ServerList.jsx';
 
+const mapStateToProps = state => {
+    return {
+        main: state.main
+    }
+};
+
 class MainInterface extends Component {
     constructor() {
         super();
-
-        this.state = {
-            main: '@test'
-        };
     }
 
     render() {
         let main = <></>;
-        switch (this.state.main) {
-            case '@test':
-                main = <ChatContainer />;
+        switch (this.props.main[0]) {
+            case '@':
+                main = <ChatContainer recepient={ this.props.main.substr(1) } />;
                 break;
         }
 
@@ -35,4 +38,4 @@ class MainInterface extends Component {
     }
 }
 
-export default MainInterface;
+export default connect(mapStateToProps)(MainInterface);

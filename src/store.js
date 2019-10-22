@@ -5,6 +5,7 @@ const initialState = {
         nick: 'KuriGohan',
         id: '23j6-19k5-13j5'
     },
+    main: '@weirdodobird',
     recent: [
         'weirdodobird',
         'Minnowfeather',

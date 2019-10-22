@@ -8,23 +8,19 @@ import TextBox from '../element/TextBox.jsx';
 class ChatContainer extends Component {
     constructor() {
         super();
-
-        this.state = {
-            recepient: 'guy'
-        };
     }
 
     render() {
         return(
             <>
                 <div className='header'>
-                    <i className="fas fa-at fa-fw"></i><span className='nick'>{ this.state.recepient }</span>
+                    <i className="fas fa-at fa-fw"></i><span className='nick'>{ this.props.recepient }</span>
                 </div>
                 <div className='chat-container'>
                     <Message nick='KuriGohan'>testing</Message>
                     <Message nick='KuriGohan'>testing 1 2 3</Message>
                 </div>
-                <TextBox placeholder={ 'Message @' + this.state.recepient } />
+                <TextBox placeholder={ 'Message @' + this.props.recepient } />
             </>
         );
     }
