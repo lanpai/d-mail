@@ -1,29 +1,24 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import { connect } from 'react-redux';
 
 import css from '../../../css/container/SideBar.scss';
 
 import ProfileElement from '../element/ProfileElement.jsx';
 import SideBarElement from '../element/SideBarElement.jsx';
 
+const mapStateToProps = state => {
+    return {
+        recent: state.recent
+    }
+};
+
 class SideBar extends Component {
     constructor() {
         super();
-
-        this.state = {
-            recentConv: [
-                'guy',
-                'speakers',
-                'user',
-                'username',
-                'person',
-                'test'
-            ]
-        }
     }
 
     render() {
-        let recentConv = this.state.recentConv.map(nick => 
+        let recentConv = this.props.recent.map(nick => 
             <SideBarElement><i className="fas fa-at fa-fw"></i>{ nick }</SideBarElement>
         );
 
@@ -38,4 +33,4 @@ class SideBar extends Component {
     }
 }
 
-export default SideBar;
+export default connect(mapStateToProps)(SideBar);

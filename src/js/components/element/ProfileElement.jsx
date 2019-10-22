@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import { connect } from 'react-redux';
 
 import css from '../../../css/element/ProfileElement.scss';
+
+const mapStateToProps = state => {
+    return {
+        id: state.client.id,
+        nick: state.client.nick
+    }
+};
 
 class ProfileElement extends Component {
     constructor() {
         super();
-
-        this.state = {
-            nick: 'KuriGohan',
-            id: '23j6-19k5-13j5'
-        };
     }
 
     render() {
@@ -22,12 +24,12 @@ class ProfileElement extends Component {
                         <i className='fas fa-microphone fa-fw'></i>
                         <i className="fas fa-volume-up fa-fw"></i>
                     </div>
-                    <span>{ this.state.nick }</span><br />
-                    <small>{ this.state.id }</small>
+                    <span>{ this.props.nick }</span><br />
+                    <small>{ this.props.id }</small>
                 </div>
             </div>
         );
     }
 }
 
-export default ProfileElement;
+export default connect(mapStateToProps)(ProfileElement);

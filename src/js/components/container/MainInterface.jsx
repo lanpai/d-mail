@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 
 import css from '../../../css/container/MainInterface.scss';
 
@@ -37,6 +36,3 @@ class MainInterface extends Component {
 }
 
 export default MainInterface;
-
-const wrapper = document.getElementById("main-interface");
-wrapper ? ReactDOM.render(<MainInterface />, wrapper) : false;
