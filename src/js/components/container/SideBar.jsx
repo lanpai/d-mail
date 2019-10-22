@@ -26,7 +26,9 @@ class SideBar extends Component {
             <div className='side-bar'>
                 <div>
                     <ProfileElement />
-                    { recentConv }
+                    <div className='recent'>
+                        { recentConv }
+                    </div>
                 </div>
             </div>
         );

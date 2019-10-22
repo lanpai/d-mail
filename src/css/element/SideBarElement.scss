@@ -9,12 +9,16 @@
 
 .side-bar-element>div {
     padding: 10px;
+    margin: 0 6px;
 
     border-radius: 5px;
 
     font-weight: 500;
     color: $color-fg-1;
     cursor: pointer;
+
+    overflow: hidden;
+    white-space: nowrap;
 
     @include transition(color 200ms, background-color 200ms);
 }

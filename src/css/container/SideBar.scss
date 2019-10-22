@@ -10,7 +10,13 @@
 }
 
 .side-bar>div {
-    padding: 15px 6px;
+    max-height: 100%;
 
+    display: flex;
     flex-direction: column;
+}
+
+.recent {
+    overflow-y: auto;
+    overflow-x: hidden;
 }
