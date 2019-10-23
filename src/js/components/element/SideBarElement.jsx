@@ -10,7 +10,7 @@ class SideBarElement extends Component {
     render() {
         return (
             <div className='side-bar-element'>
-                <div>
+                <div className={ this.props.active ? 'active' : '' }>
                     { this.props.children }
                 </div>
             </div>

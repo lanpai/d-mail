@@ -8,6 +8,7 @@ import SideBarElement from '../element/SideBarElement.jsx';
 
 const mapStateToProps = state => {
     return {
+        active: state.active,
         recent: state.recent
     }
 };
@@ -19,7 +20,9 @@ class SideBar extends Component {
 
     render() {
         let recentConv = this.props.recent.map(nick => 
-            <SideBarElement><i className="fas fa-at fa-fw"></i>{ nick }</SideBarElement>
+            <SideBarElement active={ (this.props.active.substr(1) === nick) ? true : false }>
+                <i className="fas fa-at fa-fw"></i>{ nick }
+            </SideBarElement>
         );
 
         return (

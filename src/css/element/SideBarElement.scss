@@ -23,7 +23,7 @@
     @include transition(color 200ms, background-color 200ms);
 }
 
-.side-bar-element>div:hover {
+.side-bar-element>div:hover, .side-bar-element>div.active {
     color: $color-fg;
     background-color: $color-bg-2;
 }

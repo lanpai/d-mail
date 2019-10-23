@@ -9,7 +9,7 @@ import ServerList from './ServerList.jsx';
 
 const mapStateToProps = state => {
     return {
-        main: state.main
+        active: state.active
     }
 };
 
@@ -19,17 +19,17 @@ class MainInterface extends Component {
     }
 
     render() {
-        let main = <></>;
-        switch (this.props.main[0]) {
+        let active = <></>;
+        switch (this.props.active[0]) {
             case '@':
-                main = <ChatContainer recepient={ this.props.main.substr(1) } />;
+                active = <ChatContainer recepient={ this.props.active.substr(1) } />;
                 break;
         }
 
         return (
             <>
-                <div className='main-wrapper'>
-                    { main }
+                <div className='active-wrapper'>
+                    { active }
                 </div>
                 <ServerList />
                 <SideBar />
