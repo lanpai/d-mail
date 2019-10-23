@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import css from '../../../css/container/SideBar.scss';
 
 import ProfileElement from '../element/ProfileElement.jsx';
-import SideBarElement from '../element/SideBarElement.jsx';
+import ConversationElement from '../element/ConversationElement.jsx';
 
 const mapStateToProps = state => {
     return {
@@ -20,9 +20,7 @@ class SideBar extends Component {
 
     render() {
         let recentConv = this.props.recent.map(nick => 
-            <SideBarElement key={ nick } active={ (this.props.active.substr(1) === nick) ? true : false }>
-                <i className="fas fa-at fa-fw"></i>{ nick }
-            </SideBarElement>
+            <ConversationElement id={ '@' + nick } key={ nick } active={ (this.props.active.substr(1) === nick) ? true : false } />
         );
 
         return (

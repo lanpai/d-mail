@@ -38,4 +38,4 @@ class MainInterface extends Component {
     }
 }
 
-export default connect(mapStateToProps)(MainInterface);
+export default connect(mapStateToProps, null, null)(MainInterface);
