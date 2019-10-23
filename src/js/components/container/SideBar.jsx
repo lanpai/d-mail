@@ -20,7 +20,7 @@ class SideBar extends Component {
 
     render() {
         let recentConv = this.props.recent.map(nick => 
-            <SideBarElement active={ (this.props.active.substr(1) === nick) ? true : false }>
+            <SideBarElement key={ nick } active={ (this.props.active.substr(1) === nick) ? true : false }>
                 <i className="fas fa-at fa-fw"></i>{ nick }
             </SideBarElement>
         );

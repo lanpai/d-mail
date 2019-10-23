@@ -4,6 +4,7 @@
   "description": "alternative, decentralized messaging application",
   "scripts": {
     "start": "webpack-dev-server --open --mode production",
+    "test": "webpack-dev-server --open --mode development",
     "build": "webpack --mode production"
   },
   "main": "d-mail.js",
