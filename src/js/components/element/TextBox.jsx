@@ -7,13 +7,19 @@ class TextBox extends Component {
         super();
 
         this.textarea = React.createRef();
-        this.checkResize = this.checkResize.bind(this);
+        this.onKeyDown = this.onKeyDown.bind(this);
     }
 
-    checkResize() {
+    componentDidMount() {
+        this.props.onKeyDown && (this.subOnKeyDown = this.props.onKeyDown.bind(this.textarea.current));
+    }
+
+    onKeyDown(e) {
+        this.subOnKeyDown(e);
+
         setTimeout(() => {
             this.textarea.current.style.height = 'auto';
-            this.textarea.current.style.height = this.textarea.current.scrollHeight + 'px';
+            this.textarea.current.style.height = this.textarea.current.scrollHeight + 1 + 'px';
         }, 0);
     }
 
@@ -23,7 +29,7 @@ class TextBox extends Component {
                 <div>
                     <textarea
                         ref={ this.textarea }
-                        onKeyDown={ this.checkResize }
+                        onKeyDown={ this.onKeyDown }
                         placeholder={ this.props.placeholder }
                         rows={ 1 } />
                 </div>

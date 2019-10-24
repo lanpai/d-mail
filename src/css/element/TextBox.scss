@@ -8,19 +8,21 @@
 }
 
 .textbox>div {
-    margin: 10px;
+    margin: 10px 15px;
 }
 
 .textbox>div>textarea {
     width: 100%;
     max-height: 114px;
     padding: 0;
+    margin-top: 3px;
 
     border-style: none;
     background-color: rgba(0, 0, 0, 0);
     color: $color-fg-1;
 
     overflow: hidden;
+    overflow-y: auto;
     resize: none;
     font-family: $font;
     font-size: 16px;

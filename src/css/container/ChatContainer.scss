@@ -5,6 +5,12 @@
 
     flex-direction: column;
     flex: 100%;
+
+    overflow-y: auto;
+}
+
+.chat-container::-webkit-scrollbar-thumb {
+    background-color: $color-bg-1
 }
 
 .nick {

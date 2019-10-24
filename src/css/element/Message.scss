@@ -4,5 +4,23 @@
     padding: 20px;
 
     color: $color-fg-1;
+    border-top: 1px solid $color-bg-1;
+
+    animation-name: message-fade-in;
+    animation-duration: 150ms;
+    animation-timing-function: ease-in;
+
+    background-color: $color-bg;
+}
+
+.message:last-child {
+    position: sticky;
+    bottom: 0;
+
     border-bottom: 1px solid $color-bg-1;
+}
+
+@keyframes message-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
