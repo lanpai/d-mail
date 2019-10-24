@@ -10,7 +10,7 @@ import TextBox from '../element/TextBox.jsx';
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        conversation: state.history[ownProps.recepient] || []
+        conversation: state.history[ownProps.target] || []
     }
 };
 
@@ -18,6 +18,8 @@ let chatContainer;
 class ChatContainer extends Component {
     constructor() {
         super();
+
+        this.isRendered = false;
 
         chatContainer = this;
         this.chatContainer = React.createRef();
@@ -30,7 +32,7 @@ class ChatContainer extends Component {
             let message = this.value;
             if (message) {
                 this.value = '';
-                sendMessage(chatContainer.props.recepient, message);
+                sendMessage(chatContainer.props.target, message);
             }
         }
     }
@@ -40,24 +42,27 @@ class ChatContainer extends Component {
             <Message key={ message.id } nick={ message.author }>{ message.body }</Message>
         );
 
-        if (this.chatContainer.current) {
+        setTimeout(() => {
+            if (!this.isRendered) {
+                this.chatContainer.current.style.scrollBehavior = 'auto';
+            }
+
             let scrollBottom = this.chatContainer.current.clientHeight + this.chatContainer.current.scrollTop;
-            console.log(this.chatContainer.current.clientHeight, this.chatContainer.current.scrollTop);
-            console.log(scrollBottom, this.chatContainer.current.scrollHeight);
-            if (scrollBottom + 100 > this.chatContainer.current.scrollHeight)
-                setTimeout(() => {
-                    this.chatContainer.current.scrollTop = this.chatContainer.current.scrollHeight;
-                }, 0);
-        }
+            if (scrollBottom + 100 > this.chatContainer.current.scrollHeight || !this.isRendered) {
+                this.chatContainer.current.scrollTop = this.chatContainer.current.scrollHeight;
+                this.chatContainer.current.style.scrollBehavior = 'smooth';
+                this.isRendered = true;
+            }
+        }, 0);
         return(
             <>
                 <div className='header'>
-                    <i className="fas fa-at fa-fw"></i><span className='nick'>{ this.props.recepient.substr(1) }</span>
+                    <i className="fas fa-at fa-fw"></i><span className='nick'>{ this.props.target.substr(1) }</span>
                 </div>
                 <div className='chat-container' ref={ this.chatContainer }>
                     { conversation }
                 </div>
-                <TextBox onKeyDown={ this.onKeyDown } placeholder={ 'Message ' + this.props.recepient } />
+                <TextBox onKeyDown={ this.onKeyDown } placeholder={ 'Message ' + this.props.target } />
             </>
         );
     }

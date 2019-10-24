@@ -22,7 +22,7 @@ class MainInterface extends Component {
         let active = <></>;
         switch (this.props.active[0]) {
             case '@':
-                active = <ChatContainer recepient={ this.props.active } />;
+                active = <ChatContainer key={ this.props.active } target={ this.props.active } />;
                 break;
         }
 
